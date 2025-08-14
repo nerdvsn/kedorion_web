@@ -1,0 +1,11 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Local storage
+storage/uploads/
+storage/applications.xlsx
+
+# OS
+.DS_Store
