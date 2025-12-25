@@ -1,73 +1,167 @@
-<!doctype html>
-<html lang="de">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kedorion</title>
-  <meta name="description" content="Kedorion ist ein unabhängiges AI-Lab. Wir bauen souveräne, elegante KI-Systeme. Status: im Aufbau." />
-  <meta name="theme-color" content="#0A1A3D" />
-  <!-- Favicon: grüner Dot -->
+   <!-- Favicon: grüner Dot -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='6' fill='%2300FF88'/%3E%3C/svg%3E">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
-    :root{
-      --bg:#0A1A3D;
-      --text:#C0C0C0;
-      --accent:#00FF88;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%; margin:0}
-    body{
-      background:var(--bg);
-      color:var(--text);
-      font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      display:flex; flex-direction:column; min-height:100svh;
-    }
-    .wrap{flex:1; display:flex; align-items:center; justify-content:center; padding:2rem}
-    .hero{max-width:980px; text-align:center}
-    .brand{display:inline-flex; align-items:center; gap:.24rem}
-    .wordmark{font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-size:clamp(2.5rem,8vw,5rem); font-weight:700; letter-spacing:-0.02em; color:var(--text)}
-    .logo-gif{height:clamp(6rem, 18vw, 18rem); width:auto; display:block}
+   
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-    /* Text blocks under the logo */
-    .hero-sub{
-      max-width:820px;
-      margin:.1rem auto 0;               /* enger Look wie Fließtext */
-      padding:0 1rem;
-      font: 1.04rem/1.6 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      color:var(--text);
-    }
-    .hero-sub + .hero-sub{ margin-top:.25rem; }  /* nur kleiner Abstand zwischen Absätzen */
-    .hero-sub.slogan{ margin-top:1rem; }         /* Slogan bekommt extra Luft */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    footer{margin-top:auto; text-align:center; color:#888; font: 0.9rem/1.4 'Fira Code', ui-monospace, monospace; padding:1.25rem 1rem}
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .screen {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      color: #00ff66;
+    }
+
+    /* MATRIX BACKGROUND (PERFORMANCE-SAFE) */
+    .matrix {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 16px);
+      grid-auto-rows: 20px;
+      font-size: 14px;
+      line-height: 1;
+      color: #00cc55;
+      opacity: 0.85;
+      z-index: 1;
+      will-change: contents;
+    }
+
+    .matrix span {
+      display: block;
+      opacity: 0.25;
+      transition: opacity 0.3s linear;
+    }
+
+    /* WINDOW (STATIC, NO CONTROLS) */
+    .window {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 520px;
+      background: #e5392c;
+      border: 3px solid #cfcfcf;
+      box-shadow: 0 0 0 2px #000;
+      z-index: 3;
+    }
+
+    .titlebar {
+      height: 36px;
+      background: linear-gradient(to right, #4a67b1, #5f7fd1);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .content {
+      padding: 60px 30px;
+      text-align: center;
+      color: #000;
+    }
+
+    .content h1 {
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .loading {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .loading span {
+      width: 10px;
+      height: 18px;
+      background: #000;
+      opacity: 0.2;
+      animation: load 1.6s infinite;
+    }
+
+    .loading span:nth-child(n) {
+      animation-delay: calc(var(--i) * 0.12s);
+    }
+
+    @keyframes load {
+      0% { opacity: 0.2; }
+      50% { opacity: 1; }
+      100% { opacity: 0.2; }
+    }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="hero" style="padding-top:1rem;">
-      <div class="brand" aria-label="Kedorion Logo">
-        <img src="logo webseite.png" class="logo-gif" alt="Kedorion animated logo">
-   
-      </div>
-      <p class="hero-sub">
-        Kedorion – Europe’s Eye for the Invisible.<br>
-        We decode reality’s hidden layers – delivering uncompromised truth for defence, health, and humanity’s next frontier.
-      </p>
-      <p class="hero-sub slogan">»GROUND TRUTH ARCHITECTS«</p>
-    </section>
-  </main>
+  <div class="screen">
+    <div class="matrix" id="matrix"></div>
 
-  <footer>
-    © <span id="year"></span> All rights reserved
-  </footer>
+    <div class="window">
+      <div class="titlebar">
+        <span>"TRAINING"</span>
+      </div>
+      <div class="content">
+        <h1>Kedorion is learning</h1>
+        <div class="loading">
+          <span style="--i:1"></span>
+          <span style="--i:2"></span>
+          <span style="--i:3"></span>
+          <span style="--i:4"></span>
+          <span style="--i:5"></span>
+          <span style="--i:6"></span>
+          <span style="--i:7"></span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    /* PERFORMANCE-SAFE MATRIX LOOP
+       - single interval
+       - no per-node timers
+       - stable 60fps */
+
+    const matrix = document.getElementById('matrix');
+    const cols = Math.floor(window.innerWidth / 16);
+    const rows = Math.floor(window.innerHeight / 20);
+    const cells = [];
+
+    for (let i = 0; i < cols * rows; i++) {
+      const span = document.createElement('span');
+      span.textContent = Math.random() > 0.5 ? '1' : '0';
+      matrix.appendChild(span);
+      cells.push(span);
+    }
+
+    function tick() {
+      for (let i = 0; i < cells.length; i++) {
+        if (Math.random() < 0.08) {
+          cells[i].textContent = cells[i].textContent === '0' ? '1' : '0';
+          cells[i].style.opacity = Math.random() * 0.8 + 0.2;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    tick();
   </script>
 </body>
 </html>
