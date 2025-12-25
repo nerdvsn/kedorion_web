@@ -4,11 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kedorion</title>
-   <!-- Favicon: grüner Dot -->
+  <!-- Favicon: grüner Dot -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='6' fill='%2300FF88'/%3E%3C/svg%3E">
 
   <style>
-   
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,7 +39,6 @@
       color: #00cc55;
       opacity: 0.85;
       z-index: 1;
-      will-change: contents;
     }
 
     .matrix span {
@@ -49,13 +47,16 @@
       transition: opacity 0.3s linear;
     }
 
-    /* WINDOW (STATIC, NO CONTROLS) */
+    /* WINDOW (RESPONSIVE & CENTERED) */
     .window {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 520px;
+
+      width: min(520px, 90vw);
+      max-height: 80vh;
+
       background: #e5392c;
       border: 3px solid #cfcfcf;
       box-shadow: 0 0 0 2px #000;
@@ -69,23 +70,23 @@
       align-items: center;
       padding: 0 12px;
       color: #fff;
-      font-size: 14px;
+      font-size: clamp(12px, 3vw, 14px);
     }
 
     .content {
-      padding: 60px 30px;
+      padding: clamp(28px, 6vw, 60px) clamp(18px, 5vw, 30px);
       text-align: center;
       color: #000;
     }
 
     .content h1 {
-      font-size: 26px;
+      font-size: clamp(18px, 5vw, 26px);
       font-weight: bold;
       letter-spacing: 1px;
     }
 
     .loading {
-      margin-top: 30px;
+      margin-top: clamp(18px, 5vw, 30px);
       display: flex;
       justify-content: center;
       gap: 6px;
@@ -99,14 +100,17 @@
       animation: load 1.6s infinite;
     }
 
-    .loading span:nth-child(n) {
-      animation-delay: calc(var(--i) * 0.12s);
-    }
-
     @keyframes load {
       0% { opacity: 0.2; }
       50% { opacity: 1; }
       100% { opacity: 0.2; }
+    }
+
+    /* SMALL DEVICES EXTRA SAFETY */
+    @media (max-width: 420px) {
+      .window {
+        width: 92vw;
+      }
     }
   </style>
 </head>
@@ -121,13 +125,13 @@
       <div class="content">
         <h1>Kedorion is learning</h1>
         <div class="loading">
-          <span style="--i:1"></span>
-          <span style="--i:2"></span>
-          <span style="--i:3"></span>
-          <span style="--i:4"></span>
-          <span style="--i:5"></span>
-          <span style="--i:6"></span>
-          <span style="--i:7"></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
     </div>
@@ -135,9 +139,9 @@
 
   <script>
     /* PERFORMANCE-SAFE MATRIX LOOP
-       - single interval
+       - single requestAnimationFrame
        - no per-node timers
-       - stable 60fps */
+       - stable on mobile & desktop */
 
     const matrix = document.getElementById('matrix');
     const cols = Math.floor(window.innerWidth / 16);
